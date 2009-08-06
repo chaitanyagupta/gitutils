@@ -16,7 +16,6 @@ fi
 echo "Running pre-commit hook..."
 topgit
 
-# SUBMODULES=$(git submodule status | sed -r 's/^.[a-z0-9]+ ([^ ]+).*/\1/')
 SUBMODULES=$(grep path .gitmodules | sed -r 's/^\s+path = //')
 
 # Going back to start dir
@@ -25,6 +24,8 @@ cd $START_DIR
 # Finding the submodules that have been modified
 MOD_SUBMODULES=$(git diff --cached --name-only | grep -F "$SUBMODULES")
 
+# If no modified submodules, exit with status code 0, else prompt the
+# user and exit accordingly
 if [[ -n "$MOD_SUBMODULES" ]]; then
     echo "The following modified submodules are about to be committed:"
     echo "$MOD_SUBMODULES"
