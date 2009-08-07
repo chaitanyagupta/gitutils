@@ -14,7 +14,7 @@ fi
 echo "Running pre-commit hook..."
 topgit
 
-SUBMODULES=$(grep path .gitmodules | sed -r 's/^\s+path = //')
+SUBMODULES=$(grep path .gitmodules | sed 's/^.*path = //')
 
 # Finding the submodules that have been modified
 MOD_SUBMODULES=$(git diff --cached --name-only | grep -F "$SUBMODULES")
