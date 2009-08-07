@@ -1,7 +1,5 @@
 #!/bin/bash
 
-START_DIR=$(pwd)
-
 # Jump to the current project's root directory (the one containing
 # .git/)
 topgit() {
@@ -17,9 +15,6 @@ echo "Running pre-commit hook..."
 topgit
 
 SUBMODULES=$(grep path .gitmodules | sed -r 's/^\s+path = //')
-
-# Going back to start dir
-cd $START_DIR
 
 # Finding the submodules that have been modified
 MOD_SUBMODULES=$(git diff --cached --name-only | grep -F "$SUBMODULES")

@@ -1,7 +1,5 @@
 #!/bin/bash
 
-START_DIR=$(pwd)
-
 # Jump to the current project's root directory (the one containing
 # .git/)
 topgit() {
@@ -34,8 +32,6 @@ if [[ -n "$MOD_SUBMODULES" ]]; then
     fi
 fi
 
-# Going back to start dir
-cd $START_DIR
 
 
 
