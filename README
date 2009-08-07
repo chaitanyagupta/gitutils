@@ -1,0 +1,16 @@
+gitutils
+========
+
+pre-commit-submodule
+--------------------
+
+Check whether any submodule is about to be updated with the commit. If
+so, ask the user for confirmation.  To use, copy to location
+$GIT_DIR/hooks/pre-commit and make it execuatable.
+
+post-merge-submodule
+--------------------
+
+Check if any submodules have been updated in HEAD post git-merge (or
+git-pull). If so, ask if user wants to run git-submodule update. To
+use, copy to $GIT_DIR/hooks/post-merge and make it executable.
