@@ -1,14 +1,14 @@
 gitutils
 ========
 
-pre-commit-submodule
+submodule-hooks/pre-commit
 --------------------
 
 Check whether any submodule is about to be updated with the commit. If
 so, ask the user for confirmation.  To use, copy to location
 $GIT_DIR/hooks/pre-commit and make it execuatable.
 
-post-merge-submodule
+submodule-hooks/post-merge
 --------------------
 
 Check if any submodules have been updated in HEAD post git-merge (or
