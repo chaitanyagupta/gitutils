@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Check whether any submodule is about to be updated with the
+# commit. Ask the user for confirmation.
+
 echo "Running pre-commit hook..."
 
 # Jump to the current project's root directory (the one containing
