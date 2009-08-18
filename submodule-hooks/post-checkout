@@ -3,7 +3,7 @@
 # Check if any submodule has been updated in HEAD after a branch
 # checkout. If so, ask if user wants to run git-submodule update.
 
-echo "Running post-checkout hook..."
+echo "Checking if any submodules have changed..."
 
 if [[ "$1" = "$2" || "$3" = "0" ]]; then
     exit 0

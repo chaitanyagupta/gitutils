@@ -3,7 +3,7 @@
 # Check whether any submodule is about to be updated with the
 # commit. Ask the user for confirmation.
 
-echo "Running pre-commit hook..."
+echo "Checking if any submodules are being updated..."
 
 # Jump to the current project's root directory (the one containing
 # .git/)

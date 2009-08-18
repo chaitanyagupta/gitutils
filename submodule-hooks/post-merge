@@ -3,7 +3,7 @@
 # Check if any submodule has been updated post git-merge or
 # git-pull. If so, ask if user wants to run git-submodule update.
 
-echo "Running post-merge hook..."
+echo "Checking if any submodules have changed..."
 
 # Jump to the current project's root directory (the one containing
 # .git/)
