@@ -3,6 +3,7 @@
 # Check if any submodule has been updated in HEAD after a merge (or
 # pull) or a branch checkout. If so, ask if user wants to run
 # git-submodule update.
+# --Chaitanya Gupta
 
 SCRIPT_NAME=$(basename "$0")
 
