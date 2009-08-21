@@ -1,13 +1,16 @@
 #!/bin/bash
 
-# Check if any submodule has been updated in HEAD after a branch
-# checkout. If so, ask if user wants to run git-submodule update.
+# Check if any submodule has been updated in HEAD after a merge (or
+# pull) or a branch checkout. If so, ask if user wants to run
+# git-submodule update.
 
-echo "Checking if any submodules have changed..."
+SCRIPT_NAME=$(basename "$0")
 
-if [[ "$1" = "$2" || "$3" = "0" ]]; then
+if [[ "$SCRIPT_NAME" = "post-checkout" && "$1" = "$2" || "$3" = "0" ]]; then
     exit 0
 fi
+
+echo "Checking if any submodules have changed..."
 
 # Jump to the current project's root directory (the one containing
 # .git/)

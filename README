@@ -4,14 +4,12 @@ gitutils
 submodule-hooks
 ~~~~~~~~~~~~~~~
 
-To use these, copy them to $GIT_DIR/hooks/ and make them executable.
-
 * pre-commit -- Check whether any submodule is about to be updated
-  with the commit. Ask the user for confirmation.
+  with the commit. Ask the user for confirmation. To use, copy to
+  $GIT_DIR/hooks/ and make it executable.
 
-* post-merge -- Check if any submodule has been updated post git-merge
-  or git-pull. If so, ask if user wants to run git-submodule update.
-
-* post-checkout -- Check if any submodule has been updated in HEAD
-  after a branch checkout. If so, ask if user wants to run
-  git-submodule update.
+* post-merge-checkout -- Check if any submodule has been updated post
+  git-merge (git-pull) or a branch checkout. If so, ask if user wants
+  to run git-submodule update. To use, copy to
+  $GIT_DIR/hooks/post-checkout and/or $GIT_DIR/hooks/post-merge and
+  make them executable.
