@@ -1,0 +1,54 @@
+#!/bin/bash
+
+# Put this file in your $PATH
+#
+# Usage:
+#
+#   git track-remote origin/branch
+#   git track-remote branch origin/branch
+#
+# Sets up an existing branch to track a remote branch. Runs the
+# following git-config commands:
+#
+#   git config branch.$local_branch.remote $remote_repo
+#   git config branch.$local_branch.remote refs/heads/$remote_branch
+
+echo_err() {
+    echo "$(basename $0): $@" >&2
+}
+
+if [[ -z "$1" ]]; then
+    echo_err "Didn't specify remote."
+    exit 1
+fi
+
+parse_git_branch() {
+    git-branch --no-color 2>/dev/null | grep '^\*' | sed 's/^\* //'
+}
+
+if [[ -z "$2" ]]; then
+    Remote="$1"
+    Local="$(parse_git_branch)"
+else
+    Remote="$2"
+    Local="$1"
+fi
+
+RemoteRepo=$(echo "$Remote" | sed 's/\/.*$//')
+RemoteBranch=$(echo "$Remote" | sed 's/^.*\///')
+
+if [[ ! $(echo "$Remote" | grep '/') || -z "$RemoteRepo" || -z "$RemoteBranch" ]]; then
+    echo_err "Looks like remote was not specified correctly."
+    exit 1
+fi
+
+if [[ -z "$Local" ]]; then
+    echo_err "Not in a git repository."
+    exit 2
+elif [[ "$Local" = "(no branch)" ]]; then
+    echo_err "Not on any branch, specify branch."
+    exit 2
+fi
+
+git config branch."$Local".remote "$RemoteRepo"
+git config branch."$Local".merge "refs/heads/$RemoteBranch"
