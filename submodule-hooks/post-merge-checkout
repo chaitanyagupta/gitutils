@@ -20,7 +20,7 @@ ROOT_DIR=$(git rev-parse --show-cdup)
 SUBMODULES=$(grep path ${ROOT_DIR}.gitmodules | sed 's/^.*path = //')
 
 # Finding the submodules that have been modified
-MOD_SUBMODULES=$(git diff --name-only | grep -F "$SUBMODULES")
+MOD_SUBMODULES=$(git diff --name-only --ignore-submodules=dirty | grep -F "$SUBMODULES")
 
 # If no modified submodules, exit with status code 0, else prompt the
 # user and exit accordingly
