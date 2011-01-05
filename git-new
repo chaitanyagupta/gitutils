@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# Add this file and ./new-revs to your $PATH.
+#
+# git-new will display a (git) log of all commits which are in the
+# remote tracking branch but not in the local branch. All options are
+# passed to git-log. Most useful after a `git fetch`.
+#
+# Usage:
+#
+#    $ git new
+#    $ git new --oneline
+#    $ git new -p
+
+git log "$@" `new-revs remote`
