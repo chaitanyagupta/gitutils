@@ -1,0 +1,63 @@
+#!/bin/bash
+
+# Put this file in your $PATH
+#
+# Usage (assume we are on master, which is set up to track
+# origin/master):
+#
+#    $ new-revs remote
+#    => master..origin/master
+#
+#    $ new-revs local
+#    => origin/master..master
+#
+#    $ new-revs remote sym      # short for 'symmetric'
+#    => master...origin/master
+#
+# It is useful with commands like `git log` and `git diff`:
+#
+# This gives all the new commits in the remote tracking branch (get
+# fresh commits with `git fetch`):
+#
+#    $ git log `new-revs remote`
+#
+# All commits in master or origin/master but not in both:
+#
+#    $ git log `new-revs remote sym`
+#
+# Everything in origin/master but not in master (or diff between
+# common ancestor of master and origin/master v/s origin/master):
+#
+#    $ git diff `new-revs remote sym`
+#
+# Everything that has changed from master to origin/master:
+#
+#    $ git diff `new-revs remote`
+
+refs_prefix="s/^refs\/heads\///"
+head=$(git symbolic-ref -q HEAD | sed $refs_prefix)
+remote=$(git config branch.$head.remote)
+merge=$(git config branch.$head.merge | sed $refs_prefix)
+
+if [[ "$1" = "remote" ]]; then
+    first=$head
+    second=$remote/$merge
+elif [[ "$1" = "local" ]]; then
+    first=$remote/$merge
+    second=$head
+else
+    echo "Specify 'remote' or 'local' as the first arg" >&2
+    exit 1
+fi
+
+if [[ -n $head && -n $remote && -n $merge ]]; then
+    if [[ "$2" = "sym" || "$2" = "symmetric" ]]; then
+        echo $first...$second
+    else
+        echo $first..$second
+    fi
+    exit 0
+else
+    echo "Not on a branch or not tracking a branch" >&2
+    exit 1
+fi
