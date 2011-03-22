@@ -2,7 +2,7 @@
 
 script_dir=$(dirname $0)
 
-if [[ -z "$1" ]]; then
+if [[ -z "$1" || "$1" = "-h" || "$1" = "--help" ]]; then
     echo "Usage: install.sh /path/to/git/repo" >&2
     exit 1
 fi
