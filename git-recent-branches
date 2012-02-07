@@ -1,0 +1,13 @@
+#!/bin/bash
+
+Remote="$1"
+
+function run() {
+    git for-each-ref --sort=committerdate --format='%(refname:short)' "$1"
+}
+
+if [[ -z "$Remote" ]]; then
+    run refs/heads/
+else
+    run "refs/remotes/$Remote"
+fi
