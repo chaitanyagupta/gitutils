@@ -48,3 +48,22 @@ Usage:
 
 Note: You need to add this file *and* ./new-revs to your $PATH for it
 to work.
+
+to-utf8
+-------
+
+to-utf8 tries to detect the encoding of the given file using `file`
+and then prints its contents to stdout, converted to utf-8. The
+command `iconv` is required to perform the conversion to utf-8.
+
+to-utf8 is useful as a git-diff driver for text files not encoded
+using ascii or utf-8. To configure this as a diff driver,
+
+1. Add `to-utf8` to your $PATH
+
+2. Configure it as diff driver in your git config using:
+    git config diff.to-utf8.textconv to-utf8
+
+3. In your project's `.gitattribues`, configure the relevant path to
+use this diff driver. e.g.
+    *.strings diff=to-utf8    /* Cocoa Strings files */

@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# Detect encoding of given file and print its contents to stdout,
+# converted to utf-8. Requires `iconv` and `file`.
+#
+# Usage:
+#
+#    $ to-utf8 <path/to/file>
+#
+# Mostly useful as a git "diff driver" for text files not encoded
+# using ascii/utf-8. See README for how to configure this as a
+# git-diff driver.
+
+set -o nounset
+set -o errexit
+
+iconv -f $(file -b --mime-encoding "$1") -t utf-8 "$1"
