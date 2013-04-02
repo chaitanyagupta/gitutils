@@ -62,8 +62,10 @@ using ascii or utf-8. To configure this as a diff driver,
 1. Add `to-utf8` to your $PATH
 
 2. Configure it as diff driver in your git config using:
-    git config diff.to-utf8.textconv to-utf8
+
+        git config diff.to-utf8.textconv to-utf8
 
 3. In your project's `.gitattribues`, configure the relevant path to
 use this diff driver. e.g.
-    *.strings diff=to-utf8    /* Cocoa Strings files */
+
+        *.strings diff=to-utf8    /* Cocoa Strings files */
