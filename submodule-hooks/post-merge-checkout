@@ -13,6 +13,24 @@ if [[ "$SCRIPT_NAME" = "post-checkout" && "$1" = "$2" || "$3" = "0" ]]; then
     exit 0
 fi
 
+echo "Checking if any submodules have been added..."
+
+NEW_SUBMODULES=$(git submodule status | egrep '^-' | cut -f2 -d' ')
+if [[ "x$NEW_SUBMODULES" != "x" ]]; then
+    echo "The following submodules have been added in HEAD:"
+    echo "$NEW_SUBMODULES"
+    echo -n "Run git-submodule init? [n] "
+    read -n 1 reply </dev/tty
+    echo
+    if [[ "$reply" == "y" || "$reply" == "Y" ]]; then
+        git submodule init
+        for module in $NEW_SUBMODULES; do
+            git submodule update $module
+        done
+    fi
+
+fi
+
 echo "Checking if any submodules have changed..."
 
 # Jump to the current project's root directory (the one containing
