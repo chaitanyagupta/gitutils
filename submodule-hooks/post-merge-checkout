@@ -13,26 +13,36 @@ if [[ "$SCRIPT_NAME" = "post-checkout" && "$1" = "$2" || "$3" = "0" ]]; then
     exit 0
 fi
 
-echo "Checking if any submodules have changed..."
+echo "Checking for new or changed submodules..."
 
 # Jump to the current project's root directory (the one containing
 # .git/)
 ROOT_DIR=$(git rev-parse --show-cdup)
 
+# Finding existing submodules that have been modified
 SUBMODULES=$(grep path ${ROOT_DIR}.gitmodules | sed 's/^.*path = //')
-
-# Finding the submodules that have been modified
 MOD_SUBMODULES=$(git diff --name-only --ignore-submodules=dirty | grep -F "$SUBMODULES")
 
-# If no modified submodules, exit with status code 0, else prompt the
+# Find new submodules
+NEW_SUBMODULES=$(git submodule status | egrep '^-' | cut -f2 -d' ')
+
+# If no changed submodules, exit with status code 0, else prompt the
 # user and exit accordingly
-if [[ -n "$MOD_SUBMODULES" ]]; then
+if [[ -n "$MOD_SUBMODULES" || -n "$NEW_SUBMODULES" ]]; then
     echo "The following submodules have been updated in HEAD:"
-    echo "$MOD_SUBMODULES"
-    echo -n "Run git-submodule update? [n] "
+    if [[ -n "$MOD_SUBMODULES" ]]; then
+        echo "$MOD_SUBMODULES"
+    fi
+    if [[ -n "$NEW_SUBMODULES" ]]; then
+        echo "$NEW_SUBMODULES"
+    fi
+    echo -n "Update submodules? [n] "
     read -n 1 reply </dev/tty
     echo
     if [[ "$reply" == "y" || "$reply" == "Y" ]]; then
+        if [[ -n "$NEW_SUBMODULES" ]]; then
+            git submodule init
+        fi
         git submodule update
     fi
 fi
