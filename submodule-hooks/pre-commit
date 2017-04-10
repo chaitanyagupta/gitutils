@@ -1,4 +1,8 @@
 #!/bin/bash
+# define colors for use in output
+green='\033[0;32m'
+no_color='\033[0m'
+grey='\033[0;90m'
 
 # Check whether any submodule is about to be updated with the
 # commit. Ask the user for confirmation.
@@ -18,8 +22,15 @@ MOD_SUBMODULES=$(git diff --cached --name-only | grep -F "$SUBMODULES")
 # If no modified submodules, exit with status code 0, else prompt the
 # user and exit accordingly
 if [[ -n "$MOD_SUBMODULES" ]]; then
-    echo "The following modified submodules are about to be committed:"
-    echo "$MOD_SUBMODULES"
+    echo "Submodules to be committed:"
+    echo "  (use \"git reset HEAD <file>...\" to unstage)"
+    echo
+
+    for SUB in $MOD_SUBMODULES
+    do
+        echo -e "\t${green}modified:\t$SUB${no_color}"
+    done
+    echo
     echo -n "Continue with commit? [n] "
     read -n 1 reply </dev/tty
     echo
