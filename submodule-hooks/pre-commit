@@ -8,7 +8,7 @@ grey='\033[0;90m'
 # commit. Ask the user for confirmation.
 # --Chaitanya Gupta
 
-echo "Checking if any submodules are being updated..."
+echo -e "Checking submodules ${grey}(pre-commit hook)${no_color} "
 
 # Jump to the current project's root directory (the one containing
 # .git/)
@@ -31,15 +31,17 @@ if [[ -n "$MOD_SUBMODULES" ]]; then
         echo -e "\t${green}modified:\t$SUB${no_color}"
     done
     echo
-    echo -n "Continue with commit? [n] "
+    echo -n -e "Continue with commit? ${grey}[N|y]${no_color} "
     read -n 1 reply </dev/tty
     echo
     if [[ "$reply" == "y" || "$reply" == "Y" ]]; then
+        echo "Permitting submodules to be committed..."
         exit 0
     else
-        echo "Aborted commit."
+        echo "Aborting commit due to submodule update."
         exit 1
     fi
 else
+    echo "No submodules in commit, continuing..."
     exit 0
 fi
